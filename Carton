@@ -1,10 +1,11 @@
 ;; -*- mode: emacs-lisp -*-
 (source "melpa" "http://melpa.milkbox.net/packages/")
-
 (package
  "pretty-mode-plus"
  "2.0.0-SNAPSHOT"
- "Redisplay parts of the buffer as pretty symbols.") 
+ "Redisplay parts of the buffer as pretty symbols.")
 
 (development
- (depends-on "ecukes"))
+ (depends-on "ert")
+ (depends-on "ecukes")
+ (depends-on "espuds"))

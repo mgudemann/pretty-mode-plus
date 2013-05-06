@@ -1,7 +1,10 @@
-EMACS=emacs
+CARTON ?= carton
+ECUKES = $(shell find elpa/ecukes-*/ecukes | tail -1)
 
-EMACS_CLEAN=-Q
+EMACS=emacs
+EMACS_CLEAN=$(EMACS) -Q
 EMACS_BATCH=$(EMACS_CLEAN) --batch
+
 TESTS=
 
 CURL=curl --silent
@@ -19,13 +22,16 @@ TEST_DEP_1_LATEST_URL=https://raw.github.com/emacsmirror/emacs/master/lisp/emacs
          test-dep-4 test-dep-5 test-dep-6 test-dep-7 test-dep-8 test-dep-9
 
 build :
-	$(EMACS) $(EMACS_BATCH) --eval             \
+	$(EMACS_BATCH) --eval             \
 	    "(progn                                \
 	      (batch-byte-compile))" *.el
 
+ecukes:
+	carton exec $(ECUKES) features
+
 test-dep-1 :
 	@cd $(TEST_DIR)                                      && \
-	$(EMACS) $(EMACS_BATCH)  -L . -L .. -l $(TEST_DEP_1) || \
+	$(EMACS_BATCH)  -L . -L .. -l $(TEST_DEP_1) || \
 	(echo "Can't load test dependency $(TEST_DEP_1).el, run 'make downloads' to fetch it" ; exit 1)
 
 downloads :
@@ -35,13 +41,13 @@ downloads-latest :
 	$(CURL) '$(TEST_DEP_1_LATEST_URL)' > $(TEST_DIR)/$(TEST_DEP_1).el
 
 autoloads :
-	$(EMACS) $(EMACS_BATCH) --eval                       \
+	$(EMACS_BATCH) --eval                       \
 	    "(progn                                          \
 	      (setq generated-autoload-file \"$(WORK_DIR)/$(AUTOLOADS_FILE)\") \
 	      (update-directory-autoloads \"$(WORK_DIR)\"))"
 
 test-autoloads : autoloads
-	@$(EMACS) $(EMACS_BATCH) -L . -l "./$(AUTOLOADS_FILE)"      || \
+	@$(EMACS_BATCH) -L . -l "./$(AUTOLOADS_FILE)"      || \
 	 ( echo "failed to load autoloads: $(AUTOLOADS_FILE)" && false )
 
 test-travis :
@@ -50,7 +56,7 @@ test-travis :
 test : build test-dep-1 test-autoloads
 	@cd $(TEST_DIR)                                   && \
 	(for test_lib in *-test.el; do                       \
-	    $(EMACS) $(EMACS_BATCH) -L . -L .. -l cl -l $(TEST_DEP_1) -l $$test_lib --eval \
+	    $(EMACS_BATCH) -L . -L .. -l cl -l $(TEST_DEP_1) -l $$test_lib --eval \
 	    "(flet ((ert--print-backtrace (&rest args)       \
 	      (insert \"no backtrace in batch mode\")))      \
 	       (ert-run-tests-batch-and-exit '(and \"$(TESTS)\" (not (tag :interactive)))))" || exit 1; \
