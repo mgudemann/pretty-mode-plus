@@ -355,7 +355,8 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 		(:not= "not=" clojure)
 		(:<> "<>" tuareg octave)
 		(:~= "~=" octave)
-		(:/= "/=" haskell))
+		(:/= "/=" haskell)
+		(:\\= "\\=" prolog))
 
        ;;; 2A75 ⩵ TWO CONSECUTIVE EQUALS SIGNS
        (?\u2A75 :== (:equality)
@@ -776,7 +777,8 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 2192 → RIGHTWARDS ARROW
        (?\u2192 :rightarrow (:arrows)
-		(:-> "->" ,@mley ess c c++ perl ,@lispy coffee groovy))
+		(:-> "->" ,@mley ess c c++ perl ,@lispy coffee groovy)
+		(:-> "->" prolog))
 
        (?\u27F6 :longrightarrow (:arrows)
 		(:---> "--->" prolog))
