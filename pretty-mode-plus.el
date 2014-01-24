@@ -338,7 +338,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 		(:<= "=<" prolog))
        ;;; 2265 ≥ GREATER-THAN OR EQUAL TO
        (?\u2265 :geq (:ordering)
-		(:>= ">=" ,@all))
+		(:>= ">=" ,@all prolog))
        ;;; 22D8 ⋘ VERY MUCH LESS-THAN
        (?\u22D8 :lll (:ordering :ordering-triple)
 		(:<<< "<<<" haskell))        ; Control.Arrow
@@ -392,8 +392,9 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
        (?\u22AB :models (:logic :logic-extended)
 		(:||= "||=" ruby coffee))
 
+       ;;; 22A2 :- RIGHT TURNSTILE
        (?\u22A2 :proves (:logic)
-		(::- ":-" prolog mercury))
+		(::- ":-" prolog))
 
        ;;; 2228 ∨ LOGICAL OR
        (?\u2228 :vee (:logic)
@@ -797,7 +798,7 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 21D4 ⇔ LEFT RIGHT DOUBLE ARROW
        (?\u21D4 :Leftrightarrow (:arrows)
-		(:<=> "<=>" groovy))
+		(:<=> "<=>" prolog groovy))
 
        (?\u21D0 :Leftarrow (:arrows)
 		(:<= "<=" prolog))
@@ -822,12 +823,13 @@ Should be a list of the form ((MODE ((REGEXP . GLYPH) ...)) ...)"
 
        ;; 2200 ∀ FOR ALL
        (?\u2200 :forall (:quantifiers)
-		(:forall "forall" haskell))
+		(:forall "forall" haskell)
+		(:all "all" prolog))
 
        ;; 2203 ∃ THERE EXISTS
        (?\u2203 :exists (:quantifiers)
 		(:exists "exists" haskell)
-		(:exists "some" prolog))
+		(:some "some" prolog))
 
        ;;; Nil
 
